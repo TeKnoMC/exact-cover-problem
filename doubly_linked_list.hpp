@@ -2,6 +2,10 @@
  * Doubly-linked list with circular links.
  */
 
+#ifndef DOUBLY_LINKED_LIST_H
+#define DOUBLY_LINKED_LIST_H
+
+
 #include <iostream>
 #include <cstdio>
 #include <memory>
@@ -25,6 +29,8 @@ class DoublyLinkedList {
     private:
         DoublyLinkedNode<T>* start;
         DoublyLinkedNode<T>* end;
+
+        size_t _size;
 
     public:
         DoublyLinkedList(std::vector<T> initValues) {
@@ -53,8 +59,11 @@ class DoublyLinkedList {
             start->left = end;
             end->right = start;
 
-            std::cout << "Start: " << start << ", left: " << start->left << ", right: " << start->right << std::endl;
-            std::cout << "End: " << end << ", left: " << end->left << ", right: " << end->right << std::endl;
+            _size = initValues.size();
+        }
+
+        size_t size() {
+            return _size;
         }
 
         void print() {
@@ -85,11 +94,17 @@ class DoublyLinkedList {
             node->left->right = node->right;
             node->right->left = node->left;
 
+            size--;
+
             return node;
         }
 
         void uncover(DoublyLinkedNode<T>* node) {
             node->left->right = node;
             node->right->left = node;
+
+            size++;
         }
 };
+
+#endif // DOUBLY_LINKED_LIST_H
